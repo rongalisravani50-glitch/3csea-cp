@@ -1,0 +1,56 @@
+
+
+import java.io.*;
+import java.util.*;
+
+class coinchange{
+
+    public static long getWays(int n, List<Long> c) {
+        long[] dp = new long[n + 1];
+
+        dp[0] = 1;
+
+        for (long coin : c) {
+            int value = (int) coin;
+
+            for (int amount = value; amount <= n; amount++) {
+                dp[amount] += dp[amount - value];
+            }
+        }
+
+        return dp[n];
+    }
+}
+
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int n = Integer.parseInt(firstMultipleInput[0]);
+
+        int m = Integer.parseInt(firstMultipleInput[1]);
+
+        String[] cTemp = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        List<Long> c = new ArrayList<>();
+
+        for (int i = 0; i < m; i++) {
+            long cItem = Long.parseLong(cTemp[i]);
+            c.add(cItem);
+        }
+
+        
+
+        long ways = Result.getWays(n, c);
+
+        bufferedWriter.write(String.valueOf(ways));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
